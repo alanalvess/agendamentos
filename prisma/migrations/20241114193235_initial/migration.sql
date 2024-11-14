@@ -68,7 +68,6 @@ CREATE TABLE "BarbershopService" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "imageUrl" TEXT NOT NULL,
     "price" DECIMAL(10,2) NOT NULL,
     "barbershopId" TEXT NOT NULL,
 
