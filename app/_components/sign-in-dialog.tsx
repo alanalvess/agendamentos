@@ -1,7 +1,5 @@
 import { signIn } from "next-auth/react"
 
-import Image from "next/image"
-
 import { Button } from "@/app/_components/ui/button"
 import { DialogDescription, DialogHeader, DialogTitle } from "@/app/_components/ui/dialog"
 
@@ -22,7 +20,7 @@ const SignInDialog = () => {
         className="gap-1 font-bold"
         onClick={handleLoginWithGoogleClick}
       >
-        <Image
+        <img
           alt="Fazer login com o Google"
           src="/google.svg"
           width={18}

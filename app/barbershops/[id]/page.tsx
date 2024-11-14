@@ -1,4 +1,3 @@
-import Image from "next/image"
 import Link from "next/link"
 
 import { notFound } from "next/navigation"
@@ -51,13 +50,12 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
 
   return (
     <div>
-      <div className="relative h-[250px] w-full">
-        <Image
+      <div className="relative w-full h-[30vh]">
+        <img
           alt={barbershop.name}
           src={barbershop?.imageUrl}
-          fill
-          className="object-cover"
-        />
+          className="w-full h-full object-cover"
+          />
 
         <Button
           size="icon"

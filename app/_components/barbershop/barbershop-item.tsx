@@ -1,4 +1,3 @@
-import Image from "next/image"
 import Link from "next/link"
 
 import { Barbershop } from "@prisma/client"
@@ -14,11 +13,10 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
   return (
     <Card className="min-w-[167px] rounded-2xl">
       <CardContent className="p-0 ">
-        <div className="relative h-[159px] w-full">
-          <Image
+        <div className="relative w-full h-[20vh]">
+          <img
             alt={barbershop.name}
-            fill
-            className="rounded-tl-2xl rounded-tr-2xl object-cover"
+            className="w-full h-full rounded-tl-2xl rounded-tr-2xl object-cover"
             src={barbershop.imageUrl}
           />
         </div>

@@ -8,8 +8,6 @@ import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner"
 
-import Image from "next/image"
-
 import { Button } from "@/app/_components/ui/button"
 import { Calendar } from "@/app/_components/ui/calendar"
 import { Card, CardContent } from "@/app/_components/ui/card"

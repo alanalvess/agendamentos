@@ -7,8 +7,6 @@ import { ptBR } from "date-fns/locale"
 import { useState } from "react"
 import { toast } from "sonner"
 
-import Image from "next/image"
-
 import { Avatar, AvatarImage } from "@/app/_components/ui/avatar"
 import { Badge } from "@/app/_components/ui/badge"
 import { Button } from "@/app/_components/ui/button"
@@ -113,10 +111,9 @@ const BookingItem = ({ booking }: BookingItemProps) => {
         </SheetHeader>
 
         <div className="relative mt-6 flex h-[180px] w-full items-end">
-          <Image
+          <img
             alt={`Mapa da barbearia ${booking.service.barbershop.name}`}
             src="/map.png"
-            fill
             className="rounded-xl object-cover"
           />
 
