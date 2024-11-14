@@ -17,7 +17,6 @@ export const authOptions: AuthOptions = {
       session.user = {
         ...session.user,
         id: user.id,
-        email: user.email,
       } as any
       return session
     },
