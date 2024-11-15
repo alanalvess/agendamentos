@@ -110,24 +110,25 @@ const BookingItem = ({ booking }: BookingItemProps) => {
           <SheetTitle className="text-left">Informações da Reserva</SheetTitle>
         </SheetHeader>
 
-        <div className="relative mt-6 flex h-[180px] w-full items-end">
+        <div className="relative mt-6 w-full h-[20vh]">
           <img
             alt={`Mapa da barbearia ${booking.service.barbershop.name}`}
             src="/map.png"
-            className="rounded-xl object-cover"
+            className="absolute inset-0 w-full h-full rounded-xl object-cover"
           />
 
-          <Card className="z-50 mx-5 mb-3 w-full rounded-xl">
+          <Card className="absolute bottom-3 left-1/2 transform -translate-x-1/2 z-10 w-11/12 rounded-xl bg-opacity-75 backdrop-blur-lg">
             <CardContent className="flex items-center gap-3 px-5 py-3">
               <Avatar>
                 <AvatarImage src={barbershop.imageUrl} />
               </Avatar>
-              <div>
-                <h3 className="font-bold">{barbershop.name}</h3>
-                <p className="text-xs">{barbershop.address}</p>
+              <div className="w-full">
+                <h3 className="font-bold w-full">{barbershop.name}</h3>
+                <p className="text-xs w-full">{barbershop.address}</p>
               </div>
             </CardContent>
           </Card>
+
         </div>
 
         <div className="mt-6">
@@ -184,7 +185,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                   <DialogClose className="w-full">
                     <Button
                       variant="destructive"
-                      onClick={handleCancelBooking} 
+                      onClick={handleCancelBooking}
                       className="w-full"
                     >
                       Confirmar

@@ -24,33 +24,27 @@ import BookingSummary from "@/app/_components/booking/booking-summary"
 import SignInDialog from "@/app/_components/sign-in-dialog"
 import { createBooking } from "@/app/_data/booking/create-booking"
 import { getBookings } from "@/app/_data/booking/get-bookings"
+import { deleteBarbershopService } from "@/app/_data/barbershop-service/delete-service"
+import { XIcon } from "lucide-react"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/app/_lib/auth"
 
 interface ServiceItemProps {
   service: BarbershopService
-  barbershop: Pick<Barbershop, "id" | "name">
+  barbershop: Barbershop
 }
 
 const TIME_LIST = [
   "08:00",
-  "08:30",
   "09:00",
-  "09:30",
   "10:00",
-  "10:30",
   "11:00",
-  "11:30",
   "12:00",
-  "12:30",
   "13:00",
-  "13:30",
   "14:00",
-  "14:30",
   "15:00",
-  "15:30",
   "16:00",
-  "16:30",
   "17:00",
-  "17:30",
   "18:00",
 ]
 
@@ -83,12 +77,27 @@ const getTimeList = ({ bookings, selectedDay }: GetTimeListProps) => {
 
 const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
   const { data } = useSession()
+
   const router = useRouter()
   const [signInDialogIsOpen, setSignInDialogIsOpen] = useState(false)
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined)
   const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined)
   const [dayBookings, setDayBookings] = useState<Booking[]>([])
   const [bookingSheetIsOpen, setBookingSheetIsOpen] = useState(false)
+
+  const isOwner = data?.user.id === barbershop.userId;
+
+  const handleDeleteService = async () => {
+    try {
+      await deleteBarbershopService(service.id, barbershop.id)
+      toast.success("Serviço excluído com sucesso!")
+      // Revalida a página da barbearia para atualizar a lista de serviços
+      router.push(`/barbershops/${barbershop.id}`)
+    } catch (error) {
+      console.error("Erro ao excluir serviço", error)
+      toast.error("Erro ao excluir serviço")
+    }
+  }
 
   useEffect(() => {
     const fetch = async () => {
@@ -167,12 +176,24 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
       <Card>
         <CardContent className="flex items-center gap-3 p-3">
 
+          {/* Exibir o botão de exclusão apenas se o usuário for o dono */}
+          {isOwner && (
+            <button
+              onClick={handleDeleteService}
+              className="text-red-500 hover:text-red-700"
+              aria-label="Excluir serviço"
+            >
+              <XIcon className="h-5 w-5" />
+            </button>
+          )}
+
+
           <div className="space-y-2 w-full ">
             <h3 className="text-sm font-semibold">{service.name}</h3>
             <p className="text-sm text-gray-400">{service.description}</p>
 
             <div className="flex items-center justify-between">
-              <p className="text-sm font-bold text-primary">
+              <p className="text-sm font-bold text-gray-400">
                 {Intl.NumberFormat("pt-BR", {
                   style: "currency",
                   currency: "BRL",
@@ -193,7 +214,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
 
                 <SheetContent className="px-0">
                   <SheetHeader>
-                    <SheetTitle>Fazer Reserva</SheetTitle>
+                    <SheetTitle className="px-3">Fazer Reserva</SheetTitle>
                   </SheetHeader>
 
                   <div className="border-b border-solid py-5">
@@ -230,14 +251,12 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                   </div>
 
                   {selectedDay && (
-                    <div className="flex gap-3 overflow-x-auto border-b border-solid p-5 [&::-webkit-scrollbar]:hidden">
+                    <div className="grid grid-cols-5 gap-3 p-5">
                       {timeList.length > 0 ? (
                         timeList.map((time) => (
                           <Button
                             key={time}
-                            variant={
-                              selectedTime === time ? "default" : "outline"
-                            }
+                            variant={selectedTime === time ? "default" : "outline"}
                             className="rounded-full"
                             onClick={() => handleTimeSelect(time)}
                           >
@@ -245,11 +264,10 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                           </Button>
                         ))
                       ) : (
-                        <p className="text-xs">
-                          Não há horários disponíveis para este dia.
-                        </p>
+                        <p className="col-span-5 text-xs">Não há horários disponíveis para este dia.</p>
                       )}
                     </div>
+
                   )}
 
                   {selectedDate && (
