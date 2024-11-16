@@ -7,13 +7,13 @@ import { toast } from "sonner"
 import { Button } from "@/app/_components/ui/button"
 import { CardContent } from "@/app/_components/ui/card"
 import { Input } from "@/app/_components/ui/input"
-import { 
-  Sheet, 
-  SheetClose, 
-  SheetContent, 
-  SheetFooter, 
-  SheetHeader, 
-  SheetTitle 
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle
 } from "@/app/_components/ui/sheet"
 
 import { createService } from "@/app/_data/barbershop-service/create-service"
@@ -37,8 +37,8 @@ const CreateService = ({ barbershopId }: { barbershopId: string }) => {
 
   const handleCreateService = async () => {
     const { name, description, price } = serviceData;
-    
-    if (!name || !description || Number(price) <= 0 ) {
+
+    if (!name || !description || Number(price) <= 0) {
       toast.error("Por favor, preencha todos os campos obrigatórios.");
       return;
     }
@@ -71,7 +71,7 @@ const CreateService = ({ barbershopId }: { barbershopId: string }) => {
   useEffect(() => {
     fetchServices();
   }, [barbershopId]);
-  
+
 
   return (
     <>
@@ -80,15 +80,15 @@ const CreateService = ({ barbershopId }: { barbershopId: string }) => {
       </Button>
 
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetContent>
+        <SheetContent className="h-full overflow-y-auto px-0">
           <SheetHeader>
             <SheetClose asChild>
 
-              <SheetTitle>Criar Serviço</SheetTitle>
+              <SheetTitle className="mx-3">Criar Serviço</SheetTitle>
             </SheetClose>
           </SheetHeader>
 
-          <CardContent>
+          <CardContent className="my-3">
 
             <div className="space-y-4">
               <Input
@@ -119,7 +119,7 @@ const CreateService = ({ barbershopId }: { barbershopId: string }) => {
 
           <SheetFooter>
             <SheetClose asChild>
-              <Button onClick={handleCreateService}>Criar</Button>
+              <Button className="mx-6" onClick={handleCreateService}>Criar</Button>
             </SheetClose>
           </SheetFooter>
         </SheetContent>

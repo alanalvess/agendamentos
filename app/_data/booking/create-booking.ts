@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth"
 import { revalidatePath } from "next/cache"
 
 interface CreateBookingParams {
+  userId: string;
   barbershopId: string;
   serviceId: string;
   date: Date;
@@ -19,6 +20,7 @@ export const createBooking = async (params: CreateBookingParams) => {
   await db.booking.create({
     data: { ...params, userId: (user.user as any).id },
   })
+  
   revalidatePath("/barbershops/[id]")
   revalidatePath("/bookings")
 }

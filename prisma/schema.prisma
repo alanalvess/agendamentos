@@ -67,6 +67,7 @@ model Barbershop {
   id          String              @id @default(uuid())
   name        String
   address     String
+  expedient   String
   phone       String
   description String
   imageUrl    String

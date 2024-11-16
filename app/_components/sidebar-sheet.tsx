@@ -24,7 +24,7 @@ const SidebarSheet = () => {
   const handleLogoutClick = () => signOut()
 
   return (
-    <SheetContent className="overflow-y-auto">
+    <SheetContent className="overflow-y-auto h-full">
       <SheetHeader>
         <div className="flex items-center justify-between gap-3 border-b border-solid py-5">
           {data?.user ? (

@@ -38,9 +38,10 @@ import { deleteBooking } from "@/app/_data/booking/delete-booking"
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
     include: {
+      user: true,
       service: {
         include: {
-          barbershop: true
+          barbershop: true,
         }
       }
     }
@@ -50,7 +51,7 @@ interface BookingItemProps {
 const BookingItem = ({ booking }: BookingItemProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false)
 
-  const { service: { barbershop } } = booking
+  const { user, service: { barbershop } } = booking
 
   const isConfirmed = isFuture(booking.date)
 
@@ -72,31 +73,37 @@ const BookingItem = ({ booking }: BookingItemProps) => {
     setIsSheetOpen(isOpen)
   }
 
+  console.log(booking);
+  console.log(user); // aqui está vindo como indefinido
+
+
   return (
     <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
       <SheetTrigger className="w-full min-w-[90%]">
-        <Card className="min-w-[90%]">
-          <CardContent className="flex justify-between p-0">
+        <Card className="min-w-[90%] h-full ">
+          <CardContent className="flex justify-between items-center p-0">
 
-            <div className="flex flex-col gap-2 py-5 pl-5">
+            <div className="flex flex-col gap-2 py-5 pl-5 ">
+              <h3 className="font-semibold  text-start">{booking.service.name}</h3>
+
+              <div className="flex flex-col gap-2">
+                <p className="text-sm text-start">
+                  Empresa: <span className="font-bold  text-primary">{booking.service.barbershop.name}</span>
+                </p>
+
+                <p className="text-sm text-start">
+                  Agendado por: <span className="font-bold text-primary">{booking.user?.name || "Nome não disponível"}</span>
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center justify-center border-l-2 border-solid p-5">
               <Badge
-                className="w-fit"
+                className="w-fit mb-4"
                 variant={isConfirmed ? "default" : "secondary"}
               >
                 {isConfirmed ? "Confirmado" : "Finalizado"}
               </Badge>
-              <h3 className="font-semibold">{booking.service.name}</h3>
-
-              <div className="flex items-center gap-2">
-                <Avatar className="h-6 w-6">
-                  <AvatarImage src={booking.service.barbershop.imageUrl} />
-                </Avatar>
-
-                <p className="text-sm">{booking.service.barbershop.name}</p>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-center justify-center border-l-2 border-solid px-5">
               <p className="text-sm capitalize">{format(booking.date, "MMMM", { locale: ptBR })}</p>
               <p className="text-2xl">{format(booking.date, "dd", { locale: ptBR })}</p>
               <p className="text-sm">{format(booking.date, "HH:mm", { locale: ptBR })}</p>
@@ -105,7 +112,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
         </Card>
       </SheetTrigger>
 
-      <SheetContent className="w-[85%]">
+      <SheetContent className="w-[85%] h-full overflow-y-auto px-0">
         <SheetHeader>
           <SheetTitle className="text-left">Informações da Reserva</SheetTitle>
         </SheetHeader>
@@ -141,6 +148,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
 
           <div className="mb-3 mt-6">
             <BookingSummary
+              user={user}
               barbershop={barbershop}
               service={booking.service}
               selectedDate={booking.date}

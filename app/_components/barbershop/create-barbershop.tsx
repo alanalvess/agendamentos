@@ -6,13 +6,13 @@ import { toast } from "sonner";
 import { Button } from "@/app/_components/ui/button";
 import { Input } from "@/app/_components/ui/input";
 import { CardContent } from "@/app/_components/ui/card";
-import { 
-  Sheet, 
-  SheetClose, 
-  SheetContent, 
-  SheetFooter, 
-  SheetHeader, 
-  SheetTitle 
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle
 } from "../ui/sheet";
 
 import { createBarbershop } from "../../_data/barbershop/create-barbershop";
@@ -22,6 +22,7 @@ const CreateBarbershop = () => {
   const [barbershop, setBarbershop] = useState({
     name: "",
     address: "",
+    expedient: "",
     phone: "",
     description: "",
     imageUrl: ""
@@ -36,8 +37,8 @@ const CreateBarbershop = () => {
   };
 
   const handleCreateBarbershop = async () => {
-    const { name, address, phone, description, imageUrl } = barbershop;
-    if (!name || !address || !phone || !description || !imageUrl) {
+    const { name, address, expedient, phone, description, imageUrl } = barbershop;
+    if (!name || !address || !expedient || !phone || !description || !imageUrl) {
       toast.error("Por favor, preencha todos os campos obrigatórios.");
       return;
     }
@@ -58,7 +59,7 @@ const CreateBarbershop = () => {
       </Button>
 
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetContent>
+        <SheetContent className="h-full overflow-y-auto">
           <SheetHeader>
             <SheetClose asChild>
 
@@ -66,7 +67,7 @@ const CreateBarbershop = () => {
             </SheetClose>
           </SheetHeader>
 
-          <CardContent>
+          <CardContent className="my-3">
             <div className="space-y-4">
               <Input
                 name="name"
@@ -80,6 +81,13 @@ const CreateBarbershop = () => {
                 value={barbershop.address}
                 onChange={handleInputChange}
                 placeholder="Endereço"
+                required
+              />
+              <Input
+                name="expedient"
+                value={barbershop.expedient}
+                onChange={handleInputChange}
+                placeholder="Expediente"
                 required
               />
               <Input

@@ -9,7 +9,7 @@ import ServiceItem from "@/app/_components/barbershop-service/service-item"
 import SidebarSheet from "@/app/_components/sidebar-sheet"
 import { authOptions } from "@/app/_lib/auth"
 import { Button } from "@/app/_components/ui/button"
-import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react"
+import { ChevronLeftIcon, Clock, LucidePhone, MapPinIcon, MenuIcon, PhoneCall, PhoneForwarded, PhoneIcon, PhoneIncoming, StarIcon } from "lucide-react"
 import { getServerSession } from "next-auth"
 import { Sheet, SheetTrigger } from "@/app/_components/ui/sheet"
 import { db } from "@/app/_lib/prisma"
@@ -32,6 +32,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
       services: true,
       bookings: {
         include: {
+          user: true,
           service: {
             include: {
               barbershop: true,
@@ -55,7 +56,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
           alt={barbershop.name}
           src={barbershop?.imageUrl}
           className="w-full h-full object-cover"
-          />
+        />
 
         <Button
           size="icon"
@@ -88,15 +89,19 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
           <MapPinIcon className="text-primary" size={18} />
           <p className="text-sm">{barbershop?.address}</p>
         </div>
+        <div className="mb-2 flex items-center gap-2">
+          <Clock className="text-primary" size={18} />
+          <p className="text-sm">{barbershop?.expedient}</p>
+        </div>
+        <div className="mb-2 flex items-center gap-2">
+          <PhoneIcon className="text-primary" size={18} />
+          <p className="text-sm">{barbershop?.phone}</p>
+        </div>
       </div>
 
       <div className="space-y-2 border-b border-solid p-5">
         <h2 className="text-xs font-bold uppercase text-gray-400">Sobre nós</h2>
         <p className="text-justify text-sm">{barbershop?.description}</p>
-      </div>
-
-      <div className="space-y-2 border-b border-solid p-5">
-        <PhoneItem phone={barbershop.phone} />
       </div>
 
       <div className="space-y-3 border-b border-solid p-5">

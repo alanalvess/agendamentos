@@ -39,7 +39,7 @@ const Home = async () => {
           Barbearias e salões de beleza
         </h2>
 
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
           {barbershops.map((barbershop) => (
             <div key={barbershop.id}>
               <BarbershopItem barbershop={barbershop} />

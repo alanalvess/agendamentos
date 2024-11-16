@@ -15,6 +15,7 @@ export const getConcludedBookings = async () => {
       },
     },
     include: {
+      user: true,
       service: {
         include: {
           barbershop: true,

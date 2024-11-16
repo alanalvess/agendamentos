@@ -46,8 +46,9 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
   }
 
   return (
-    <Card className="min-w-[167px] rounded-2xl">
-      <CardContent className="p-0 ">
+    <Card className="min-w-[167px] h-full rounded-2xl">
+      <CardContent className="p-0 flex h-full flex-col">
+        {/* Imagem no topo */}
         <div className="relative w-full h-[20vh]">
           <img
             alt={barbershop.name}
@@ -56,12 +57,11 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
           />
         </div>
 
-        <div className="px-3 py-3">
-          <div className="flex justify-between items-center">
-            <h3 className="truncate font-semibold">{barbershop.name}</h3>
-
-            {/* Exibir o botão de exclusão apenas se o usuário for o dono */}
-            {isOwner && (
+        {/* Conteúdo do card */}
+        <div className="flex h-full">
+          {/* Botão de excluir */}
+          {isOwner && (
+            <div className="flex justify-center items-center text-center border-r border-solid p-3">
               <button
                 onClick={handleOpenDeleteConfirmation}
                 className="text-red-500 hover:text-red-700"
@@ -69,14 +69,28 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
               >
                 <XIcon className="h-5 w-5" />
               </button>
-            )}
+            </div>
+          )}
+
+          {/* Conteúdo principal */}
+          <div className="flex-1 p-3 flex flex-col">
+            <div>
+              <h3 className="font-semibold">{barbershop.name}</h3>
+              <p className="text-sm text-gray-400">{barbershop.address}</p>
+            </div>
+
+            {/* Botões na parte inferior */}
+            <div className="flex gap-3 mt-auto pt-5">
+              {isOwner && (
+                <Button variant="secondary" size="sm" asChild>
+                  <Link href={`/barbershops/edit/${barbershop.id}`}>Editar</Link>
+                </Button>
+              )}
+              <Button variant="secondary" size="sm" className="flex-1" asChild>
+                <Link href={`/barbershops/${barbershop.id}`}>Ver mais...</Link>
+              </Button>
+            </div>
           </div>
-
-          <p className="truncate text-sm text-gray-400">{barbershop.address}</p>
-
-          <Button variant="secondary" className="mt-3 w-full" asChild>
-            <Link href={`/barbershops/${barbershop.id}`}>Ver mais...</Link>
-          </Button>
         </div>
       </CardContent>
 
@@ -84,10 +98,13 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
       {deleteConfirmationIsOpen && (
         <div className="fixed inset-0 z-50 bg-gray-500 bg-opacity-50 flex justify-center items-center">
           <div className="bg-background p-5 rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold">Excluir </h2>
+            <h2 className="text-xl font-semibold">Excluir</h2>
             <p>Tem certeza de que deseja excluir este estabelecimento?</p>
             <div className="mt-4 flex gap-4 justify-end">
-              <Button variant="secondary" onClick={() => setDeleteConfirmationIsOpen(false)}>
+              <Button
+                variant="secondary"
+                onClick={() => setDeleteConfirmationIsOpen(false)}
+              >
                 Cancelar
               </Button>
               <Button variant="destructive" onClick={handleDeleteBarbershop}>
@@ -98,6 +115,9 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
         </div>
       )}
     </Card>
+
+
+
   )
 }
 

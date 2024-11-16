@@ -4,14 +4,17 @@ import { db } from "@/app/_lib/prisma";
 import { endOfDay, startOfDay } from "date-fns";
 
 interface GetBookingsProps {
-  serviceId: string
+  userId: string,
+  serviceId: string;
   barbershopId: string;
   date: Date;
 }
 
-export const getBookings = async ({ serviceId, barbershopId, date }: GetBookingsProps) => {
+export const getBookings = async ({ userId, serviceId, barbershopId, date }: GetBookingsProps) => {
+
   return db.booking.findMany({
     where: {
+      userId,
       barbershopId,
       serviceId,
       date: {
@@ -20,6 +23,7 @@ export const getBookings = async ({ serviceId, barbershopId, date }: GetBookings
       },
     },
     include: {
+      user: true,
       service: {
         include: {
           barbershop: true,
@@ -27,5 +31,7 @@ export const getBookings = async ({ serviceId, barbershopId, date }: GetBookings
       },
     },
   });
+
+  
 };
 
