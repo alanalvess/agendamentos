@@ -12,6 +12,8 @@ import { useSession } from "next-auth/react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { XIcon } from "lucide-react"
+import EditBarbershop from "@/app/_components/barbershop/update-barbershop"; // Importe o componente de edição
+
 
 interface BarbershopItemProps {
   barbershop: Barbershop
@@ -23,32 +25,30 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
   const router = useRouter()
   const [deleteConfirmationIsOpen, setDeleteConfirmationIsOpen] = useState(false)
 
-  // Verificar se o usuário é o dono da barbearia
+
+  const [editIsOpen, setEditIsOpen] = useState(false); // Estado para abrir/fechar o formulário de edição
+
   const isOwner = data?.user?.id === barbershop.userId
 
-  // Função para abrir a confirmação de exclusão
   const handleOpenDeleteConfirmation = () => {
     setDeleteConfirmationIsOpen(true)
   }
 
-  // Função para excluir a barbearia
   const handleDeleteBarbershop = async () => {
     try {
-      // Deletar a barbearia
       await deleteBarbershop(barbershop.id)
-      toast.success("Barbearia excluída com sucesso!")
-      // Redirecionar ou recarregar a página após a exclusão
-      router.push("/")
+      toast.success("Empresa excluída com sucesso!")
+      setDeleteConfirmationIsOpen(false);
+      router.refresh();
     } catch (error) {
-      console.error("Erro ao excluir barbearia", error)
-      toast.error("Erro ao excluir barbearia")
+      console.error("Erro ao excluir empresa", error)
+      toast.error("Erro ao excluir empresa")
     }
   }
 
   return (
     <Card className="min-w-[167px] h-full rounded-2xl">
       <CardContent className="p-0 flex h-full flex-col">
-        {/* Imagem no topo */}
         <div className="relative w-full h-[20vh]">
           <img
             alt={barbershop.name}
@@ -57,15 +57,13 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
           />
         </div>
 
-        {/* Conteúdo do card */}
         <div className="flex h-full">
-          {/* Botão de excluir */}
           {isOwner && (
             <div className="flex justify-center items-center text-center border-r border-solid p-3">
               <button
                 onClick={handleOpenDeleteConfirmation}
                 className="text-red-500 hover:text-red-700"
-                aria-label="Excluir barbearia"
+                aria-label="Excluir empresa"
               >
                 <XIcon className="h-5 w-5" />
               </button>
@@ -81,9 +79,14 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
 
             {/* Botões na parte inferior */}
             <div className="flex gap-3 mt-auto pt-5">
-              {isOwner && (
+              {/* {isOwner && (
                 <Button variant="secondary" size="sm" asChild>
                   <Link href={`/barbershops/edit/${barbershop.id}`}>Editar</Link>
+                </Button>
+              )} */}
+              {isOwner && (
+                <Button variant="secondary" size="sm" onClick={() => setEditIsOpen(true)}>
+                  Editar
                 </Button>
               )}
               <Button variant="secondary" size="sm" className="flex-1" asChild>
@@ -113,6 +116,14 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Formulário de edição */}
+      {editIsOpen && (
+        <EditBarbershop
+          barbershopData={barbershop}
+          onClose={() => setEditIsOpen(false)}
+        />
       )}
     </Card>
 

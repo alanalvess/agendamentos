@@ -46,7 +46,7 @@ const BookingSummary = ({
         </div>
 
         <div className="flex items-center justify-between">
-          <h2 className="text-sm text-gray-400">Barbearia</h2>
+          <h2 className="text-sm text-gray-400">Empresa</h2>
           <p className="text-sm">{barbershop.name}</p>
         </div>
 

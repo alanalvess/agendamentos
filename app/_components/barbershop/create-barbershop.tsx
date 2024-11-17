@@ -16,8 +16,11 @@ import {
 } from "../ui/sheet";
 
 import { createBarbershop } from "../../_data/barbershop/create-barbershop";
+import { useRouter } from "next/navigation";
 
 const CreateBarbershop = () => {
+  const router = useRouter()
+
   const [isOpen, setIsOpen] = useState(false);
   const [barbershop, setBarbershop] = useState({
     name: "",
@@ -44,18 +47,19 @@ const CreateBarbershop = () => {
     }
     try {
       await createBarbershop({ barbershop });
-      toast.success("Barbearia criada com sucesso!");
+      toast.success("Empresa criada com sucesso!");
+      router.refresh();
       setIsOpen(false);
     } catch (error) {
-      console.error("Erro ao criar barbearia:", error);
-      toast.error("Erro ao criar barbearia!");
+      console.error("Erro ao criar empresa:", error);
+      toast.error("Erro ao criar empresa!");
     }
   };
 
   return (
     <>
       <Button variant="secondary" onClick={() => setIsOpen(true)}>
-        Criar Barbearia
+        Criar Empresa
       </Button>
 
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -63,7 +67,7 @@ const CreateBarbershop = () => {
           <SheetHeader>
             <SheetClose asChild>
 
-              <SheetTitle>Criar Barbearia</SheetTitle>
+              <SheetTitle>Criar Empresa</SheetTitle>
             </SheetClose>
           </SheetHeader>
 
@@ -73,7 +77,7 @@ const CreateBarbershop = () => {
                 name="name"
                 value={barbershop.name}
                 onChange={handleInputChange}
-                placeholder="Nome da Barbearia"
+                placeholder="Nome da Empresa"
                 required
               />
               <Input

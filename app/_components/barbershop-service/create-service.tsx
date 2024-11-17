@@ -17,9 +17,11 @@ import {
 } from "@/app/_components/ui/sheet"
 
 import { createService } from "@/app/_data/barbershop-service/create-service"
+import { useRouter } from "next/navigation"
 
 const CreateService = ({ barbershopId }: { barbershopId: string }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter()
 
   const [serviceData, setServiceData] = useState({
     name: "",
@@ -50,8 +52,9 @@ const CreateService = ({ barbershopId }: { barbershopId: string }) => {
           ...serviceData,
         },
       });
-
+      
       toast.success("Serviço criado com sucesso!");
+      router.refresh();
       setIsOpen(false);
     } catch (error) {
       toast.error("Erro ao criar serviço!");

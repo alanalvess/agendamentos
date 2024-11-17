@@ -13,6 +13,7 @@ import { ChevronLeftIcon, Clock, LucidePhone, MapPinIcon, MenuIcon, PhoneCall, P
 import { getServerSession } from "next-auth"
 import { Sheet, SheetTrigger } from "@/app/_components/ui/sheet"
 import { db } from "@/app/_lib/prisma"
+import Header from "@/app/_components/header"
 
 interface BarbershopPageProps {
   params: {
@@ -51,6 +52,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
 
   return (
     <div>
+      <Header />
       <div className="relative w-full h-[30vh]">
         <img
           alt={barbershop.name}
@@ -69,18 +71,6 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
           </Link>
         </Button>
 
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button
-              size="icon"
-              variant="outline"
-              className="absolute right-4 top-4"
-            >
-              <MenuIcon />
-            </Button>
-          </SheetTrigger>
-          <SidebarSheet />
-        </Sheet>
       </div>
 
       <div className="border-b border-solid p-5">
@@ -108,7 +98,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
         <h2 className="text-xs font-bold uppercase text-gray-400">Serviços</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {barbershop.services.length === 0 ? (
-            <p className="text-sm text-gray-500">Ainda não há serviços disponíveis para esta barbearia.</p>
+            <p className="text-sm text-gray-500">Ainda não há serviços disponíveis para esta empresa.</p>
           ) : (
             barbershop.services.map((service) => (
               <ServiceItem
@@ -130,7 +120,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
           <div className="space-y-3 border-b border-solid p-5">
             <h2 className="text-xs font-bold uppercase text-gray-400">Agendamentos</h2>
             {barbershop.bookings.length === 0 ? (
-              <p className="text-sm text-gray-500">Nenhum agendamento encontrado para esta barbearia.</p>
+              <p className="text-sm text-gray-500">Nenhum agendamento encontrado para esta empresa.</p>
             ) : (
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {barbershop.bookings.map((booking) => (

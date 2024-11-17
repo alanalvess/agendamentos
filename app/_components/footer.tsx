@@ -6,7 +6,7 @@ const Footer = () => {
       <Card>
         <CardContent className="px-5 py-6">
           <p className="text-sm text-gray-400">
-            © 2023 Copyright <span className="font-bold">Alunos Projeto Integrador II - Univesp</span>
+            © 2023 Projeto Integrador II - Univesp | <span className="font-bold">Alunos DRP01-PJI240-SALA-006GRUPO-009</span>
           </p>
         </CardContent>
       </Card>
