@@ -7,9 +7,13 @@ import { Input } from "@/app/_components/ui/input";
 import { CardContent } from "@/app/_components/ui/card";
 import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle } from "../ui/sheet";
 import { updateBarbershop } from "../../_data/barbershop/update-barbershop"; // Função de atualização
+import { useRouter } from "next/navigation";
 
 const EditBarbershop = ({ barbershopData, onClose }: any) => {
   const [barbershop, setBarbershop] = useState(barbershopData);
+
+  const router = useRouter()
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -28,6 +32,7 @@ const EditBarbershop = ({ barbershopData, onClose }: any) => {
     try {
       await updateBarbershop({ barbershop });
       toast.success("Empresa atualizada com sucesso!");
+      router.refresh
       onClose();
     } catch (error) {
       console.error("Erro ao atualizar empresa:", error);
